@@ -1,0 +1,58 @@
+---
+
+apiVersion: builtin
+kind: HelmChartInflationGenerator
+metadata:
+  name: redis-ha
+
+# Chart
+name: redis
+repo: https://charts.bitnami.com/bitnami
+chartHome: ../../.charts
+version: 17.3.7
+
+# Release
+releaseName: redis-ha-preview
+namespace: default
+
+# valuesFile 
+valuesFile: ./values.yaml
+
+# valuesInline
+valuesInline:
+  architecture: replication
+
+  auth:
+    enabled: true
+    sentinel: true
+    password: ""
+    existingSecret: ""
+    existingSecretPasswordKey: ""
+  
+  replica:
+    replicaCount: 3
+
+    persistence:
+      enabled: true
+      path: /data
+      subPath: ""
+      accessModes: [ "ReadWriteOnce" ]
+      size: 2Gi
+    
+    resources:
+      requests: { cpu: 250m, memory: 128Mi }
+      limits: { cpu: 500m, memory: 256Mi }
+  
+  sentinel:
+    enabled: true
+    masterSet: <MASTER>
+    quorum: 2
+
+    downAfterMilliseconds: 15000
+    failoverTimeout: 90000
+
+  metrics:
+    enabled: true
+    
+    sentinel:
+      enabled: true
