@@ -1,0 +1,30 @@
+---
+
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - ../../base/helmChart
+
+
+patchesStrategicMerge:
+  - |-
+    apiVersion: builtin
+    kind: HelmChartInflationGenerator
+    metadata:
+      name: redis-ha
+
+    # valuesInline
+    valuesInline:
+      auth:
+        existingSecret: "-redis-password-sealed"
+        existingSecretPasswordKey: "password"
+
+      # replica:
+      #   replicaCount: 3
+      #
+      # sentinel:
+      #   enabled: true
+      #   masterSet: <MASTER>
+      #   quorum: 2
+
