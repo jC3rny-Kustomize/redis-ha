@@ -21,7 +21,7 @@ targets:
   - select:
       version: v1
       kind: Secret
-      name: -redis-password-sealed
+      name: sealed-secret
     options:
       create: true
     fieldPaths:
@@ -32,7 +32,7 @@ targets:
       group: bitnami.com
       version: v1alpha1
       kind: SealedSecret
-      name: -redis-password-sealed
+      name: sealed-secret
     options:
       create: true
     fieldPaths:
