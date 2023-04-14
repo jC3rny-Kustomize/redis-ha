@@ -7,24 +7,23 @@ resources:
   - ../../base/helmChart
 
 
-patchesStrategicMerge:
-  - |-
-    apiVersion: builtin
-    kind: HelmChartInflationGenerator
-    metadata:
-      name: redis-ha
+patches:
+  - patch: |-
+      apiVersion: builtin
+      kind: HelmChartInflationGenerator
+      metadata:
+        name: redis-ha
 
-    # valuesInline
-    valuesInline:
-      auth:
-        existingSecret: "-redis-password-sealed"
-        existingSecretPasswordKey: "password"
+      # valuesInline
+      valuesInline:
+        auth:
+          existingSecret: "-redis-password-sealed"
+          existingSecretPasswordKey: "password"
 
-      # replica:
-      #   replicaCount: 3
-      #
-      # sentinel:
-      #   enabled: true
-      #   masterSet: <MASTER>
-      #   quorum: 2
-
+        # replica:
+        #   replicaCount: 3
+        #
+        # sentinel:
+        #   enabled: true
+        #   masterSet: <MASTER>
+        #   quorum: 2
